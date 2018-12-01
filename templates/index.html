@@ -148,7 +148,7 @@
                                     </tr>
                                     <tr>
                                         <th>詳細</th>
-                                        <td>{{ result.body.description }}</td>
+                                        <td>{{ result.body.description | replace('\n', '<br />\n') }}</td>
                                     </tr>
                                     <tr>
                                         <th>書影</th>
@@ -193,5 +193,9 @@
     <script src="/static/js/axios.js"></script>
     <script src="/static/js/vue.js"></script>
     <script src="/static/main.js"></script>
+    <!-- <script>
+        Vue.filter('linebreaksbr', function (value) {
+            return value.replace("\n", "<br />\n")
+      })</script> -->
 </body>
 </html>

@@ -46,15 +46,18 @@ class APIOpenBD:
         json_data['authors'] = json_api_data[0]['summary']['author']
         json_data['publisher'] = json_api_data[0]['summary']['publisher']
         json_data['publishedDate'] = json_api_data[0]['summary']['pubdate']
-        # json_data['description'] = json_api_data[0]['summary']['description']
+        if 'TextContent' in json_api_data[0]['onix']['CollateralDetail']:
+            for tc in json_api_data[0]['onix']['CollateralDetail']['TextContent']:
+                if tc['TextType'] == '03':  # これが詳細らしい
+                    # print('description='+ json_api_data[0]['onix']['CollateralDetail']['TextContent'][0]['Text'] )
+                    # json_data['description'] = json_api_data[0]['onix']['CollateralDetail']['TextContent'][0]['Text']
+                    print('description=' + tc['Text'] )
+                    json_data['description'] = tc['Text']
+                    break
         json_data['thumbnail'] = json_api_data[0]['summary']['cover']
 
         # isbnコードが込み入った形で格納されている
         json_data['isbn'] = json_api_data[0]['onix']['ProductIdentifier']['IDValue']
-        # for item in industryIdentifiers:
-        #     if item['type'] == 'ISBN_13':
-        #         json_data['isbn'] = item['identifier']
-        #         break
 
         return json_data
         

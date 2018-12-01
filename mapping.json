@@ -29,7 +29,7 @@
                 "index": true,
                 "analyzer": "my_analyzer"
             },
-            "cover": {
+            "thumbnail": {
                 "type": "text",
                 "index": false
             }

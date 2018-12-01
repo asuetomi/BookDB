@@ -2,6 +2,14 @@ from APIOpenBD import APIOpenBD
 from ElasticsearchWrapper import ElasticsearchWrapper
 from flask import Flask, render_template, request, jsonify
 import json
+from jinja2 import Template, Environment, FileSystemLoader
+
+import re
+
+from jinja2 import evalcontextfilter, Markup, escape
+
+_paragraph_re = re.compile(r'(?:\r\n|\r|\n){2,}')
+
 
 class CustomFlask(Flask):
     '''
@@ -18,10 +26,37 @@ class CustomFlask(Flask):
 		comment_end_string='#)',
     ))
 
+    template_filter = Flask.template_filter
+
+
 app = CustomFlask(__name__)
 #app = Flask(__name__)
 
+# @app.template_filter()
+# @evalcontextfilter
+@app.template_filter('nl2br')
+def nl2br(eval_ctx, value):
+    result = u'\n\n'.join(u'<p>%s</p>' % p.replace('\n', '<br>\n') \
+        for p in _paragraph_re.split(escape(value)))
+    if eval_ctx.autoescape:
+        result = Markup(result)
+    return result
+
+@app.template_filter('linebreaksbr')
+def linebreaksbr(arg):
+    return arg.replace("\n", "<br />\n")
+
+# env = Environment(loader=FileSystemLoader('.'), trim_blocks=False)
+
+# env.filters['linebreaksbr'] = linebreaksbr
+# template = env.get_template('index.html')
+
+# env.filters.update({
+# 	"linebreaksbr": jinja2_custom_filters.linebreaksbr,
+# })
+
 app.config['JSON_AS_ASCII'] = False    # jsonifyで日本語が文字化けする場合の対処
+
 
 @app.route("/")
 def index():
@@ -29,6 +64,7 @@ def index():
 	画面
 	'''
 	return render_template("index.html")
+	# return template.render("index.html")
 
 @app.route("/get")
 def get():
@@ -50,7 +86,7 @@ def regist():
 	ISBNに対応する書籍情報を取得して、Elasticsearchに登録
 	'''
 	# パラメータからISBNコードを取得
-	isbn = request.args.get('isbn', default=None)
+	isbn = request.args.get('isbn', default=None).replace('-','')
 	# 必要な情報を取得する
 	json_data = APIOpenBD().get_json(isbn) if isbn else {}
 
@@ -84,7 +120,7 @@ def search():
 	# 検索の項目名、項目値のDictionary
 	items = {}
 	if isbn != None:
-		items['isbn'] = isbn
+		items['isbn'] = isbn.replace('-','')
 	if title != None:
 		items['title'] = title
 	if author != None:
@@ -107,4 +143,5 @@ def search():
 	return response
 
 if __name__ == "__main__":
-	app.run(debug=False, host='0.0.0.0', port=8080)
+    print(linebreaksbr('aaa\nbbb'))
+    app.run(debug=False, host='0.0.0.0', port=8080)
