@@ -11,18 +11,19 @@
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/main.css">
 
-    <title>簡易書籍管理システム</title>
+    <title>簡易書籍管理システム with openBD</title>
 </head>
 
 <body>
     <div class="container-fluid" id="app">
         <div id="title">
-            <h1>書籍管理システム</h1>
+            <h1>書籍管理システム with openBD</h1>
         </div>
 
         <ul class="tabMenu">
             <li @click="isSelect('1')" v-bind:class="{'active': isActive === '1'}">書籍追加</li>
             <li @click="isSelect('2')" v-bind:class="{'active': isActive === '2'}">書籍検索</li>
+            <li @click="isSelect('3')" v-bind:class="{'active': isActive === '3'}">書籍一覧</li>
         </ul>
 
         <div class="tabContents">
@@ -103,6 +104,15 @@
                     <div class="form-row">
                         <div class="col col-md-5">
                             <button id="search-button" v-on:click="search" class="btn btn-primary">検索</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div v-else-if="isActive === '3'">
+                    <div class="form-row">
+                        <div class="col col-md-5">
+                            <button id="searchall-button" v-on:click="searchall" class="btn btn-primary">表示</button>
                         </div>
                     </div>
                 </div>

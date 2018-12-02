@@ -104,7 +104,7 @@ def regist():
 
 	return response
 
-# @app.route("/search")
+@app.route("/search")
 def search():
 	'''
 	検索
@@ -142,35 +142,11 @@ def search():
 
 	return response
 
-@app.route("/search")
+@app.route("/searchall")
 def search_all():
 	'''
 	一覧
 	'''
-	# # パラメータからISBNコードを取得
-	# isbn = request.args.get('isbn', default=None)
-	# title = request.args.get('title', default=None)
-	# author = request.args.get('author', default=None)
-	# publisher = request.args.get('publisher', default=None)
-	# publishedDate = request.args.get('publishedDate', default=None)
-	# description = request.args.get('description', default=None)
-
-	# 検索の項目名、項目値のDictionary
-	# items = {}
-	# items[''] = ''
-	# if isbn != None:
-	# 	items['isbn'] = isbn.replace('-','')
-	# if title != None:
-	# 	items['title'] = title
-	# if author != None:
-	# 	items['authors'] = author
-	# if publisher != None:
-	# 	items['publisher'] = publisher
-	# if publishedDate != None:
-	# 	items['publishedDate'] = publishedDate
-	# if description != None:
-	# 	items['description'] = description
-
 	# Elasticsearch
 	es = ElasticsearchWrapper('openbd', 'openbd-index')
 	# 検索
