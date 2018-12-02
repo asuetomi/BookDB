@@ -34,7 +34,8 @@ class APIOpenBD:
         # 呼び出しが失敗した場合
         if json_api_data == None:
             return None
-        
+        print('json_api_data=' + json_api_data)
+
         # 検索結果が0だった場合
         # if json_api_data['totalItems'] == 0:
         #     return None
