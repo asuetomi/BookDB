@@ -97,6 +97,23 @@ class ElasticsearchWrapper:
 
         return self.__search(query, count)
 
+    def search_all(self, count:int = 10):
+        '''
+        ディクショナリで定義された項目（名前、値）のAND条件での検索を行う
+
+        Parameters
+        ----------
+        items : dict
+            項目（名前、値）の一覧
+        count : int
+            検索結果の上限数、無指定の場合の初期値10
+        '''
+        query = {
+            "query": { "match_all": {} }
+        }
+
+        return self.__search(query, count)
+
     def __search(self, query:dict, count:int):
         '''
         queryで指定された検索式で、Elasticsearchを検索する
