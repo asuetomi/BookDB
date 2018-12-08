@@ -34,11 +34,11 @@ class APIOpenBD:
         # 呼び出しが失敗した場合
         if json_api_data == None:
             return None
-        print('json_api_data=' + json_api_data)
 
         # 検索結果が0だった場合
-        # if json_api_data['totalItems'] == 0:
-        #     return None
+        if json_api_data[0] == '[None]':
+            return None
+
         # 呼び出しが成功した場合
         # 必要な情報だけを抜き出して新しいJSONを作成する
         # Elasticsearchの項目（'mapping.json'で定義）と項目を揃えること
@@ -92,10 +92,17 @@ class APIOpenBD:
 
         # 呼び出し成功した場合
         # 返ってきたJSON文字列を取得する
-        json_text = response.text      
+        json_text = response.text
+        print('response.text=' + response.text)
+
+        # 見つからなかった場合
+        if json_text == '[null]':
+            return None
 
         # JSON文字列を辞書型に変換する
         json_data = json.loads(json_text)
+        # print('json_data=')
+        # json_data
 
         return json_data
 

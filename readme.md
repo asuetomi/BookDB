@@ -2,7 +2,7 @@
 
 簡易的な書籍管理システムです。  
 Flask＋Elasticsearchで動作しています。  
-内部では、Google Books API を呼び出しています。
+内部では、openBD API を呼び出しています。
 
 ## Requirement
 - Java 1.8
@@ -64,4 +64,5 @@ CTRL+Cが入力されるまで、Flaskが動作し続けます
 
 
 ## Authors
+- [asuetomi](https://github.com/asuetomi)
 - [michihosokawa](https://github.com/michihosokawa)

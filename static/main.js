@@ -43,15 +43,30 @@ var app = new Vue({
             console.log(url)
             axios.get( url )
                 .then( response => {
+                    console.log( 'response-------------------------------------' );
                     console.log( response );
 
-					if (response.data.length == 0) {
-						alert('登録できませんでした（GoogleBooksに見つかりませんでした）') ;
+                    len = Object.keys(response.data).length;
+					if (len == 0) {
+						alert('登録できませんでした（openBDに見つかりませんでした）') ;
 						return ;
 					}
 
                     let results_old = this.results
                     this.results = []
+                    response.data[Symbol.iterator] = function () {
+                        let index = 0;
+                        len = Object.keys(response.data).length;
+                        return {
+                          next() {
+                            if (len <= index) {
+                              return {done: true};
+                            } else {
+                              return {value: response.data[index++]};
+                            }
+                          }
+                        };
+                    };
                     for( let value of response.data) {
                         this.results.push( value )
                     }
@@ -108,6 +123,19 @@ var app = new Vue({
 
 		            let results_old = this.results
 					this.results = []
+                    response.data[Symbol.iterator] = function () {
+                        let index = 0;
+                        len = Object.keys(response.data).length;
+                        return {
+                          next() {
+                            if (len <= index) {
+                              return {done: true};
+                            } else {
+                              return {value: response.data[index++]};
+                            }
+                          }
+                        };
+                    };
 					for( let value of response.data) {
 						this.results.push( value )
 					}
@@ -120,11 +148,51 @@ var app = new Vue({
 		            }
                 } ) ;
         },
+        searchall: function () {
+    
+            // let search_str = search_option.join("&");
+            // let search_str = "all";
+            this.$el.querySelector("#container").style.display = "block"
+    
+            let url = "/searchall";
+            console.log(url)
+            axios.get( url )
+                .then( response => {
+                    console.log( response );
+    
+                    let results_old = this.results
+                    this.results = []
+                    response.data[Symbol.iterator] = function () {
+                        let index = 0;
+                        len = Object.keys(response.data).length;
+                        return {
+                          next() {
+                            if (len <= index) {
+                              return {done: true};
+                            } else {
+                              return {value: response.data[index++]};
+                            }
+                          }
+                        };
+                    };
+                    for( let value of response.data) {
+                        this.results.push( value )
+                    }
+    //					app.$forceUpdate();
+                    if ( results_old == this.results) {
+                        window.scrollTo(0,document.body.scrollHeight-this.$el.querySelector("#container").clientHeight);
+                        this.search_clicked = 0
+                    } else {
+                        this.search_clicked = 1
+                    }
+                } ) ;
+        },
         isSelect: function(num) {
             this.isActive = num;
         }
 
     },
+
     updated : function () {
         this.$nextTick(function () {
             if ( this.search_clicked == 1 ) {
