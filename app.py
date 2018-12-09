@@ -158,5 +158,4 @@ def search_all():
 	return response
 
 if __name__ == "__main__":
-    # print(linebreaksbr('aaa\nbbb'))
     app.run(debug=False, host='0.0.0.0', port=8080)

@@ -99,12 +99,10 @@ class ElasticsearchWrapper:
 
     def search_all(self, count:int = 10):
         '''
-        ディクショナリで定義された項目（名前、値）のAND条件での検索を行う
+        全件取得を行う
 
         Parameters
         ----------
-        items : dict
-            項目（名前、値）の一覧
         count : int
             検索結果の上限数、無指定の場合の初期値10
         '''
