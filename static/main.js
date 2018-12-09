@@ -137,16 +137,16 @@ var app = new Vue({
                         };
                     };
 					for( let value of response.data) {
-						this.results.push( value )
+						this.results.push( value );
 					}
 //					app.$forceUpdate();
 		            if ( results_old == this.results) {
 		                window.scrollTo(0,document.body.scrollHeight-this.$el.querySelector("#container").clientHeight);
-		                this.search_clicked = 0
+		                this.search_clicked = 0;
 		            } else {
-		                this.search_clicked = 1
+		                this.search_clicked = 1;
 		            }
-                } ) ;
+                });
         },
         searchall: function () {
     
@@ -185,12 +185,22 @@ var app = new Vue({
                     } else {
                         this.search_clicked = 1
                     }
-                } ) ;
+                });
         },
         isSelect: function(num) {
             this.isActive = num;
         }
 
+    },
+    filters: {
+        linebreaksbr: function(arg) {
+            if (arg != null) {
+                return arg.replace(/\n/g, '<br/>');
+            }
+            else {
+                return arg;
+            }
+        }
     },
 
     updated : function () {
