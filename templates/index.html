@@ -161,7 +161,10 @@
                                     </tr>
                                     <tr>
                                         <th>詳細</th>
-                                        <td>{{ result.body.description | linebreaksbr }}</td>
+                                        <!-- <td>{{ result.body.description | linebreaksbr }}</td> -->
+                                        <!-- <td><p v-html="result.body.description | linebreaksbr"></p></td> -->
+                                        <td><p style="white-space: pre-wrap;" v-html="result.body.description"></p></td>
+                                        <!-- <td>{{ result.body.description.replace("\n", "<br />\n") }}</td> -->
                                     </tr>
                                     <tr>
                                         <th>書影</th>
